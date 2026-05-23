@@ -1,0 +1,145 @@
+{
+  "tests": [
+    {
+      "name": "basic_mp4_realistic_sd15",
+      "input": {
+        "prompt": "a golden retriever puppy running across a sunlit meadow, cinematic, 4k",
+        "negative_prompt": "blurry, low quality, distorted, watermark",
+        "output_format": "mp4",
+        "num_frames": 16,
+        "num_inference_steps": 25,
+        "guidance_scale": 7.5,
+        "width": 512,
+        "height": 512,
+        "fps": 8,
+        "seed": 42
+      },
+      "timeout": 600000
+    },
+    {
+      "name": "gif_output",
+      "input": {
+        "prompt": "ocean waves crashing on a rocky coastline at sunset",
+        "output_format": "gif",
+        "num_frames": 16,
+        "gif_fps": 10,
+        "num_inference_steps": 25
+      },
+      "timeout": 600000
+    },
+    {
+      "name": "frames_only_no_muxing",
+      "input": {
+        "prompt": "a campfire flickering in the woods at night, embers floating up",
+        "output_format": "frames",
+        "num_frames": 16,
+        "num_inference_steps": 20
+      },
+      "timeout": 600000
+    },
+    {
+      "name": "long_clip_24_frames",
+      "input": {
+        "prompt": "a hot air balloon drifting over rolling hills, slow camera pan",
+        "output_format": "mp4",
+        "num_frames": 24,
+        "num_inference_steps": 25,
+        "fps": 8
+      },
+      "timeout": 900000
+    },
+    {
+      "name": "animatelcm_fast_lcm_scheduler",
+      "input": {
+        "prompt": "a neon-lit cyberpunk street at night, rainy reflections, slow zoom",
+        "motion_adapter": "wangfuyun/AnimateLCM",
+        "scheduler": "LCM",
+        "num_inference_steps": 6,
+        "guidance_scale": 1.5,
+        "num_frames": 16,
+        "output_format": "mp4"
+      },
+      "timeout": 300000
+    },
+    {
+      "name": "zoom_in_motion_lora",
+      "input": {
+        "prompt": "a single red rose covered in dew",
+        "motion_loras": [
+          {"repo": "guoyww/animatediff-motion-lora-zoom-in", "weight": 0.8}
+        ],
+        "output_format": "mp4",
+        "num_frames": 16,
+        "num_inference_steps": 25,
+        "guidance_scale": 7.5
+      },
+      "timeout": 600000
+    },
+    {
+      "name": "multi_prompt_batch",
+      "input": {
+        "prompts": [
+          "a flock of birds taking off from a lake at sunrise",
+          "a sailing ship cresting a large ocean wave"
+        ],
+        "output_format": "gif",
+        "num_frames": 16,
+        "num_inference_steps": 20,
+        "gif_fps": 8
+      },
+      "timeout": 900000
+    },
+    {
+      "name": "custom_resolution_768",
+      "input": {
+        "prompt": "a vintage train winding through snowy mountains",
+        "output_format": "mp4",
+        "num_frames": 16,
+        "width": 768,
+        "height": 432,
+        "num_inference_steps": 25,
+        "fps": 8
+      },
+      "timeout": 600000
+    },
+    {
+      "name": "sdxl_beta_adapter",
+      "input": {
+        "prompt": "a majestic eagle soaring over alpine peaks, ultra detailed",
+        "base_model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "motion_adapter": "guoyww/animatediff-motion-adapter-sdxl-beta",
+        "output_format": "mp4",
+        "num_frames": 16,
+        "width": 1024,
+        "height": 1024,
+        "num_inference_steps": 25,
+        "guidance_scale": 7.5
+      },
+      "timeout": 900000
+    }
+  ],
+  "config": {
+    "gpuTypeId": "NVIDIA GeForce RTX 4090",
+    "gpuCount": 1,
+    "env": [
+      {
+        "key": "ANIMATEDIFF_BASE",
+        "value": "emilianJR/epiCRealism"
+      },
+      {
+        "key": "ANIMATEDIFF_MOTION",
+        "value": "guoyww/animatediff-motion-adapter-v1-5-3"
+      }
+    ],
+    "allowedCudaVersions": [
+      "12.7",
+      "12.6",
+      "12.5",
+      "12.4",
+      "12.3",
+      "12.2",
+      "12.1",
+      "12.0"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "title": "Runpod AnimateDiff (Text-to-Video · Motion LoRAs)",
+  "description": "Serverless GPU text-to-video using AnimateDiff (SD1.5 motion modules + SDXL-beta adapter). Send a text prompt, receive a short clip as mp4 (default), animated GIF, or a list of base64 PNG frames. Stack optional camera-motion LoRAs (zoom-in/out, pan-left/right, tilt-up/down, rolling cw/ccw) on top of any SD1.5 base. Supports AnimateLCM for fast 4-8 step generation. Note: AnimateDiff motion modules ship under the guoyww research license; the base diffusion checkpoints follow each model card's terms.",
+  "type": "serverless",
+  "category": "video",
+  "iconUrl": "https://example.com/icon.png",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 50,
+    "presets": [
+      {
+        "name": "Realistic SD1.5 (default)",
+        "defaults": {
+          "ANIMATEDIFF_BASE": "emilianJR/epiCRealism",
+          "ANIMATEDIFF_MOTION": "guoyww/animatediff-motion-adapter-v1-5-3"
+        }
+      },
+      {
+        "name": "AnimateLCM Fast",
+        "defaults": {
+          "ANIMATEDIFF_BASE": "emilianJR/epiCRealism",
+          "ANIMATEDIFF_MOTION": "wangfuyun/AnimateLCM"
+        }
+      },
+      {
+        "name": "SDXL Beta",
+        "defaults": {
+          "ANIMATEDIFF_BASE": "stabilityai/stable-diffusion-xl-base-1.0",
+          "ANIMATEDIFF_MOTION": "guoyww/animatediff-motion-adapter-sdxl-beta"
+        }
+      },
+      {
+        "name": "Zoom-In Motion",
+        "defaults": {
+          "ANIMATEDIFF_BASE": "emilianJR/epiCRealism",
+          "ANIMATEDIFF_MOTION": "guoyww/animatediff-motion-adapter-v1-5-3"
+        }
+      },
+      {
+        "name": "Pan-Right Motion",
+        "defaults": {
+          "ANIMATEDIFF_BASE": "emilianJR/epiCRealism",
+          "ANIMATEDIFF_MOTION": "guoyww/animatediff-motion-adapter-v1-5-3"
+        }
+      }
+    ],
+    "env": [
+      {
+        "key": "ANIMATEDIFF_BASE",
+        "input": {
+          "name": "Default base diffusion model",
+          "type": "string",
+          "description": "HuggingFace repo id of the SD1.5 or SDXL backbone to preload on cold start. Options include emilianJR/epiCRealism (default), SG161222/Realistic_Vision_V5.1_noVAE, runwayml/stable-diffusion-v1-5, stabilityai/stable-diffusion-xl-base-1.0.",
+          "default": "emilianJR/epiCRealism"
+        }
+      },
+      {
+        "key": "ANIMATEDIFF_MOTION",
+        "input": {
+          "name": "Default motion adapter",
+          "type": "string",
+          "description": "HuggingFace repo id of the MotionAdapter weights paired with the backbone. Options: guoyww/animatediff-motion-adapter-v1-5-3 (default, SD1.5), guoyww/animatediff-motion-adapter-v1-5-2 (SD1.5), wangfuyun/AnimateLCM (LCM-distilled SD1.5), guoyww/animatediff-motion-adapter-sdxl-beta (SDXL).",
+          "default": "guoyww/animatediff-motion-adapter-v1-5-3"
+        }
+      },
+      {
+        "key": "HF_HOME",
+        "input": {
+          "name": "HuggingFace cache root",
+          "type": "string",
+          "description": "Directory used by HuggingFace Hub to cache downloaded weights. Mount a persistent volume here to skip cold-start downloads across restarts.",
+          "default": "/root/.cache/huggingface"
+        }
+      },
+      {
+        "key": "ANIMATEDIFF_ALLOW_ANY_HF_MODEL",
+        "input": {
+          "name": "Allow any HF model id",
+          "type": "string",
+          "description": "Set to '1' to disable curated base/adapter validation and accept any HuggingFace repo id per request. Off by default for safety.",
+          "default": ""
+        }
+      }
+    ]
+  }
+}
