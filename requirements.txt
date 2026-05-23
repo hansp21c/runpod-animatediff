@@ -1,0 +1,14 @@
+runpod
+diffusers>=0.27.0
+transformers>=4.40.0
+torch
+torchvision
+accelerate
+peft
+safetensors
+Pillow
+numpy
+requests
+imageio
+imageio-ffmpeg
+opencv-python-headless
